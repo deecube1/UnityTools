@@ -1,0 +1,9 @@
+{
+    "mappings": [
+        {
+            "prefix": "M_",
+            "destination": "Assets/deecube1",
+            "extension": ".mat"
+        }
+    ]
+}

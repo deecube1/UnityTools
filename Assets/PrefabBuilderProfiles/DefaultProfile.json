@@ -1,0 +1,11 @@
+{
+    "prefabName": "HK",
+    "savePath": "CM",
+    "colliderPrefix": "CM",
+    "colliderType": "0",
+    "tag": "Untagged",
+    "layer": 0,
+    "removeMaterials": false,
+    "removeEmptyObjects": false,
+    "selectedObjects": []
+}
