@@ -107,10 +107,18 @@ public class ViewportBookmarks : EditorWindow
         Bookmark bookmark = bookmarkList.Bookmarks[index];
         SceneView sceneView = SceneView.lastActiveSceneView;
 
-        // Manually set camera properties for accurate placement
-        sceneView.AlignViewToObject(SetupDummyObject(bookmark.Position, bookmark.Rotation));
-        sceneView.camera.fieldOfView = bookmark.FOV;
-        sceneView.Repaint();
+        Transform dummy = null;
+        try
+        {
+            dummy = SetupDummyObject(bookmark.Position, bookmark.Rotation);
+            sceneView.AlignViewToObject(dummy);
+            sceneView.camera.fieldOfView = bookmark.FOV;
+            sceneView.Repaint();
+        }
+        finally
+        {
+            CleanupDummyObject(dummy);
+        }
     }
 
     private void DeleteBookmark(int index)
@@ -123,9 +131,18 @@ public class ViewportBookmarks : EditorWindow
     {
         SceneView sceneView = SceneView.lastActiveSceneView;
 
-        sceneView.AlignViewToObject(SetupDummyObject(Vector3.zero, Quaternion.identity));
-        sceneView.camera.fieldOfView = 60f; // Default FOV for perspective view
-        sceneView.Repaint();
+        Transform dummy = null;
+        try
+        {
+            dummy = SetupDummyObject(Vector3.zero, Quaternion.identity);
+            sceneView.AlignViewToObject(dummy);
+            sceneView.camera.fieldOfView = 60f; // default FOV
+            sceneView.Repaint();
+        }
+        finally
+        {
+            CleanupDummyObject(dummy);
+        }
     }
 
     private void SaveBookmarks()
@@ -145,7 +162,8 @@ public class ViewportBookmarks : EditorWindow
 
     private Transform SetupDummyObject(Vector3 position, Quaternion rotation)
     {
-        GameObject dummy = new GameObject("DummyObject");
+        var dummy = new GameObject("ViewportBookmarks_Dummy");
+        dummy.hideFlags = HideFlags.HideInHierarchy | HideFlags.DontSave; // keep hierarchy clean
         dummy.transform.position = position;
         dummy.transform.rotation = rotation;
         return dummy.transform;
@@ -155,7 +173,8 @@ public class ViewportBookmarks : EditorWindow
     {
         if (dummy != null)
         {
-            DestroyImmediate(dummy.gameObject);
+            // Destroy immediately in editor
+            Object.DestroyImmediate(dummy.gameObject);
         }
     }
 }
