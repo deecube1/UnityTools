@@ -1,0 +1,11 @@
+1. Go to Edit>Project Settings>Quality and find Render Pipeline Asset, click on it and it will take your project window to where it is stored. 
+2. Right in the same folder you will find Renderer Asset with the same name as your Pipeline Asset. Eg: if Pipeline Asset is "PC_RPAsset" then your renderer name would be PC_Renderer.
+3. Click on the Renderer and in the inspector at the bottom click on "Add Renderer Feature"
+4. Then click on the "Full Screen Pass Renderer Feature"
+5. in the Injection Point Select "After Rendering Post Processing"
+6. in Pass Material drag and drop "M_SimpleScreenOutline" material from the SimpleScreenOutline folder.
+7. YOu will see the outline in the viewport. Check material for thickness and Color of the outline.
+
+
+Notes:
+1. In order to refine outline Change the camera far clipping both in the viewport and in the Camera setting.
